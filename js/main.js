@@ -69,6 +69,8 @@
     mujeres: CONFIG.vestimenta.mujeres,
     hombres: CONFIG.vestimenta.hombres,
     regalosTitulo: CONFIG.regalos.titulo,
+    hashtag: CONFIG.hashtag,
+    inicial: CONFIG.quinceanera.nombre.charAt(0),
   };
   document.querySelectorAll("[data-bind]").forEach((node) => {
     node.textContent = textos[node.dataset.bind] ?? "";
@@ -88,6 +90,80 @@
   });
   $("#foto-detalle").loading = "lazy";
   $("#foto-final").loading = "lazy";
+
+  // Destellos dorados sobre la foto de portada
+  const framePortada = $("#frame-portada");
+  for (let i = 0; i < 14; i++) {
+    const chispa = el("span", "sparkle");
+    chispa.style.left = `${Math.random() * 100}%`;
+    chispa.style.top = `${Math.random() * 100}%`;
+    chispa.style.animationDelay = `${(Math.random() * 4).toFixed(2)}s`;
+    chispa.style.setProperty("--s", (0.5 + Math.random()).toFixed(2));
+    framePortada.appendChild(chispa);
+  }
+
+  // ---------- Galería + visor ----------
+  const galeria = CONFIG.galeria || [];
+  if (galeria.length) {
+    const grid = $("#galeria-fotos");
+    galeria.forEach((src, i) => {
+      const btn = el("button", "gallery__item");
+      btn.setAttribute("aria-label", `Ver foto ${i + 1}`);
+      const img = el("img");
+      img.src = src;
+      img.alt = `Foto ${i + 1} de ${CONFIG.quinceanera.nombre}`;
+      img.loading = "lazy";
+      btn.appendChild(img);
+      btn.addEventListener("click", () => abrirVisor(i));
+      grid.appendChild(btn);
+    });
+    $("#galeria").hidden = false;
+  }
+
+  const visor = $("#lightbox");
+  const visorImg = $("#lb-img");
+  let fotoActual = 0;
+  function mostrarFoto(i) {
+    fotoActual = (i + galeria.length) % galeria.length;
+    visorImg.src = galeria[fotoActual];
+    visorImg.alt = `Foto ${fotoActual + 1} de ${galeria.length}`;
+  }
+  function abrirVisor(i) {
+    mostrarFoto(i);
+    visor.hidden = false;
+    document.body.classList.add("is-locked");
+    $("#lb-cerrar").focus();
+  }
+  function cerrarVisor() {
+    visor.hidden = true;
+    document.body.classList.remove("is-locked");
+  }
+  $("#lb-cerrar").addEventListener("click", cerrarVisor);
+  $("#lb-prev").addEventListener("click", () => mostrarFoto(fotoActual - 1));
+  $("#lb-next").addEventListener("click", () => mostrarFoto(fotoActual + 1));
+  visor.addEventListener("click", (e) => { if (e.target === visor) cerrarVisor(); });
+  document.addEventListener("keydown", (e) => {
+    if (visor.hidden) return;
+    if (e.key === "Escape") cerrarVisor();
+    if (e.key === "ArrowLeft") mostrarFoto(fotoActual - 1);
+    if (e.key === "ArrowRight") mostrarFoto(fotoActual + 1);
+  });
+  let toqueX = null;
+  visor.addEventListener("touchstart", (e) => { toqueX = e.touches[0].clientX; }, { passive: true });
+  visor.addEventListener("touchend", (e) => {
+    if (toqueX === null) return;
+    const dx = e.changedTouches[0].clientX - toqueX;
+    if (Math.abs(dx) > 50) mostrarFoto(fotoActual + (dx < 0 ? 1 : -1));
+    toqueX = null;
+  });
+
+  // ---------- Subir fotos de la fiesta ----------
+  if (CONFIG.subirFotosUrl) {
+    $("#btn-subir-fotos").href = CONFIG.subirFotosUrl;
+  } else {
+    $("#btn-subir-fotos").hidden = true;
+    $("#subir-fotos-pronto").hidden = false;
+  }
 
   // ---------- Fecha (siempre en hora de Colombia) ----------
   const parte = (opciones) => new Intl.DateTimeFormat("es-CO", { timeZone: ZONA, ...opciones }).format(fecha);
@@ -144,21 +220,33 @@
   const pintarProgreso = () => progreso.style.setProperty("--p", `${progreso.value}%`);
   pintarProgreso();
 
-  if (CONFIG.musica.archivo) audio.src = CONFIG.musica.archivo;
+  // Si el MP3 todavía no está subido, el reproductor muestra "Pronto".
+  let hayMusica = Boolean(CONFIG.musica.archivo);
+  if (hayMusica) audio.src = CONFIG.musica.archivo;
+  audio.addEventListener("error", () => {
+    hayMusica = false;
+    setPlayIcon(false);
+    label.textContent = "Pronto 🎶";
+  });
+
+  function reproducir() {
+    if (hayMusica) audio.play().catch(() => { if (hayMusica) setPlayIcon(false); });
+  }
 
   function setPlayIcon(playing) {
     btnPlay.innerHTML = svg(playing ? "pause" : "play");
     btnPlay.classList.toggle("is-playing", playing);
     btnPlay.setAttribute("aria-label", playing ? "Pausar" : "Reproducir");
-    label.textContent = playing && CONFIG.musica.titulo ? CONFIG.musica.titulo : "Dale play";
+    if (!hayMusica) label.textContent = "Pronto 🎶";
+    else label.textContent = playing && CONFIG.musica.titulo ? CONFIG.musica.titulo : "Dale play";
   }
 
   btnPlay.addEventListener("click", () => {
-    if (!CONFIG.musica.archivo) {
+    if (!hayMusica) {
       label.textContent = "Pronto 🎶";
       return;
     }
-    if (audio.paused) audio.play().catch(() => setPlayIcon(false));
+    if (audio.paused) reproducir();
     else audio.pause();
   });
   audio.addEventListener("play", () => setPlayIcon(true));
@@ -272,6 +360,27 @@
       btn.href = `https://wa.me/${CONFIG.rsvp.whatsapp}?text=${encodeURIComponent(texto)}`;
     });
   }
+
+  // ---------- Sobre de entrada ----------
+  // Abrir el sobre es un toque del invitado, así que el navegador sí deja
+  // arrancar la música en ese momento.
+  const intro = $("#intro");
+  if (invitado) {
+    const para = $("#intro-para");
+    para.textContent = `Para: ${invitado.nombre}`;
+    para.hidden = false;
+  }
+  $("#btn-abrir-sobre").addEventListener("click", () => {
+    if (intro.classList.contains("is-opening")) return;
+    intro.classList.add("is-opening");
+    reproducir();
+    const rapido = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setTimeout(() => {
+      intro.classList.add("is-gone");
+      document.body.classList.remove("is-locked");
+    }, rapido ? 0 : 1600);
+    setTimeout(() => { intro.hidden = true; }, rapido ? 0 : 2400);
+  });
 
   // ---------- Animación al hacer scroll ----------
   const observer = new IntersectionObserver((entries) => {

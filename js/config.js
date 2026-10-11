@@ -24,11 +24,20 @@ const CONFIG = {
     final: "img/final.jpg",
   },
 
-  // Canción del reproductor "Dale play" (ej. "img/cancion.mp3"). CAMBIAR
+  // Canción del reproductor "Dale play". Sube el MP3 a img/ con este nombre.
   musica: {
-    archivo: "",
-    titulo: "",
+    archivo: "img/cancion.mp3",
+    titulo: "No crezcas más · Tercer Cielo",
   },
+
+  // Fotos de la galería (ej. ["img/galeria/1.jpg", "img/galeria/2.jpg"]). Vacío = se oculta.
+  galeria: [],
+
+  // Link de la carpeta de Google Drive donde los invitados suben sus fotos.
+  // Vacío = el botón dice "Disponible el día de la fiesta".
+  subirFotosUrl: "",
+
+  hashtag: "#MisXVMayte",
 
   ubicacion: {
     lugar: "Salón de eventos Los Heroicos Club Social",
@@ -44,7 +53,7 @@ const CONFIG = {
     { icono: "camera", evento: "Fotos", hora: "10:00 - 10:30 pm" },
     { icono: "utensils", evento: "Cena", hora: "10:30 - 11:00 pm" },
     { icono: "party", evento: "Que empiece la fiesta", hora: "11:00 - 12:00 pm" },
-    { icono: "drama", evento: "Hora loca", hora: "12:00 - 1:00 am" }, // CONFIRMAR
+    { icono: "drama", evento: "Hora loca", hora: "12:00 - 1:00 am" },
     { icono: "martini", evento: "Happy hour", hora: "1:00 - 2:00 am" },
   ],
 

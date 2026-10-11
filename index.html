@@ -18,12 +18,30 @@
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Gentium+Book+Plus:wght@400;700&family=Playfair+Display:wght@400;500&family=Oswald:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body class="is-locked">
+  <!-- SOBRE DE ENTRADA -->
+  <div class="intro" id="intro">
+    <button class="envelope-intro" id="btn-abrir-sobre" aria-label="Abrir la invitación">
+      <span class="envelope-intro__back"></span>
+      <span class="envelope-intro__letter">
+        <span class="envelope-intro__xv">Mis 15 años</span>
+        <span class="envelope-intro__name" data-bind="nombre"></span>
+      </span>
+      <span class="envelope-intro__front"></span>
+      <span class="envelope-intro__flap"></span>
+      <span class="envelope-intro__seal" data-bind="inicial"></span>
+    </button>
+    <p class="intro__to" id="intro-para" hidden></p>
+    <p class="intro__hint">Toca el sobre para abrir</p>
+  </div>
+
   <main class="page">
 
     <!-- PORTADA + REPRODUCTOR -->
     <section class="hero">
-      <img class="photo" id="foto-portada" alt="Mayte con su vestido de quince años en el Centro Histórico de Cartagena">
+      <div class="frame frame--hero" id="frame-portada">
+        <img class="photo photo--kenburns" id="foto-portada" alt="Mayte con su vestido de quince años en el Centro Histórico de Cartagena">
+      </div>
 
       <div class="player" id="player">
         <div class="player__top">
@@ -82,7 +100,9 @@
       <p class="heading" id="countdown-done" hidden>¡Hoy es el gran día!</p>
     </section>
 
-    <img class="photo reveal" id="foto-detalle" alt="Detalle del vestido de quince años de Mayte">
+    <div class="frame reveal reveal--photo">
+      <img class="photo" id="foto-detalle" alt="Mayte con su vestido de quince años">
+    </div>
 
     <!-- UBICACIÓN -->
     <section class="section reveal">
@@ -152,14 +172,43 @@
         <a class="btn btn--outline btn--small" id="btn-whatsapp" target="_blank" rel="noopener" hidden>Confirmar por WhatsApp</a>
       </form>
 
+    </section>
+
+    <!-- GALERÍA -->
+    <section class="section reveal" id="galeria" hidden>
+      <h2 class="script script--lg">Galería</h2>
+      <div class="gallery" id="galeria-fotos"></div>
+    </section>
+
+    <!-- FOTOS DE LOS INVITADOS -->
+    <section class="section reveal" id="fotos-invitados">
+      <h2 class="script script--lg">Comparte tus fotos</h2>
+      <span class="envelope" data-icon="camera"></span>
+      <p class="lead">Ayúdame a guardar cada recuerdo de esta noche. Sube aquí las fotos y videos que tomes en la fiesta.</p>
+      <a class="btn btn--outline" id="btn-subir-fotos" target="_blank" rel="noopener">Subir mis fotos</a>
+      <p class="muted" id="subir-fotos-pronto" hidden>Disponible el día de la fiesta</p>
+      <p class="hashtag" data-bind="hashtag"></p>
+    </section>
+
+    <section class="section reveal">
       <p class="lead lead--big" id="despedida"></p>
       <p class="script script--lg signature">
         <span data-bind="nombre"></span><br><span data-bind="apellidos"></span>
       </p>
     </section>
 
-    <img class="photo photo--inset reveal" id="foto-final" alt="Mayte de espaldas con su vestido en una calle de Cartagena">
+    <div class="frame frame--inset reveal reveal--photo">
+      <img class="photo" id="foto-final" alt="Mayte de espaldas con su vestido en una calle de Cartagena">
+    </div>
   </main>
+
+  <!-- VISOR DE FOTOS -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada" hidden>
+    <button class="lightbox__close" id="lb-cerrar" aria-label="Cerrar">&times;</button>
+    <button class="lightbox__nav lightbox__nav--prev" id="lb-prev" aria-label="Foto anterior">&#8249;</button>
+    <img class="lightbox__img" id="lb-img" alt="">
+    <button class="lightbox__nav lightbox__nav--next" id="lb-next" aria-label="Foto siguiente">&#8250;</button>
+  </div>
 
   <script src="js/config.js"></script>
   <script src="js/main.js"></script>

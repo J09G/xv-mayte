@@ -16,8 +16,10 @@ xv-mayte/
 
 1. Abre `js/config.js`. Ahí están la fecha, la ubicación, el itinerario, la vestimenta y los textos, tomados del diseño de Canva.
 2. Las fotos actuales están recortadas de capturas de pantalla. Para mejor calidad, reemplaza `img/portada.jpg`, `img/detalle.jpg` e `img/final.jpg` por los originales, con los mismos nombres.
-3. Música del reproductor "Dale play": copia el MP3 en `img/` y ponlo en `musica.archivo`, por ejemplo `"img/cancion.mp3"`.
-4. Los colores y las fuentes están en las variables de `:root`, al inicio de `css/styles.css`.
+3. **Canción**: sube el MP3 a la carpeta `img/` con el nombre exacto **`cancion.mp3`**. En GitHub: entra a la carpeta `img` → **Add file → Upload files**. La música arranca cuando el invitado abre el sobre; mientras el archivo no exista, el reproductor dice "Pronto".
+4. **Galería**: sube las fotos a `img/galeria/` y agrégalas en `galeria` de `config.js`, por ejemplo `["img/galeria/1.jpg", "img/galeria/2.jpg"]`.
+5. **Fotos de los invitados**: crea una carpeta en Google Drive, compártela como **"Cualquier persona con el enlace" → Editor** y pega el link en `subirFotosUrl`. Mientras esté vacío, el botón dice "Disponible el día de la fiesta".
+6. Los colores y las fuentes están en las variables de `:root`, al inicio de `css/styles.css`.
 
 Para verla en tu computador, abre `index.html` en el navegador o ejecuta `npx serve .` en esta carpeta.
 
