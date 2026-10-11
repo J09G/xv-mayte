@@ -149,8 +149,11 @@
       <h2 class="script script--lg" data-bind="regalosTitulo"></h2>
       <span class="envelope" data-icon="mail"></span>
 
-      <p class="deadline" id="rsvp-limite"></p>
-      <button class="btn btn--gold" id="btn-abrir-rsvp" aria-expanded="false" aria-controls="form-rsvp">Confirmar asistencia</button>
+      <button class="btn btn--gold btn--cta" id="btn-abrir-rsvp" aria-expanded="false" aria-controls="form-rsvp">
+        <span class="btn__title">Confirmar asistencia</span>
+        <span class="btn__sub" id="rsvp-limite"></span>
+        <svg class="tap-hand" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 8-6.2 1.6 3.8 6.6-2.6 1.5-3.8-6.6L5.6 18.6z" fill="#fff" stroke="#111" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      </button>
 
       <form class="form" id="form-rsvp" novalidate hidden>
         <label class="field">

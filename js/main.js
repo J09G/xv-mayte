@@ -216,7 +216,7 @@
 
   // ---------- Fecha límite para confirmar ----------
   if (CONFIG.rsvp.fechaLimite) {
-    $("#rsvp-limite").textContent = `Confirma tu asistencia máximo hasta el ${CONFIG.rsvp.fechaLimite}`;
+    $("#rsvp-limite").textContent = `Máximo hasta el ${CONFIG.rsvp.fechaLimite}`;
   }
 
   // ---------- Reproductor "Dale play" ----------
@@ -367,6 +367,8 @@
     const abrir = form.hidden;
     form.hidden = !abrir;
     btnAbrir.setAttribute("aria-expanded", String(abrir));
+    // Al abrir el formulario ya no hace falta llamar la atención.
+    btnAbrir.classList.toggle("is-open", abrir);
     if (abrir) form.nombre.focus();
   });
 

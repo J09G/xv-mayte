@@ -28,7 +28,7 @@ const CONFIG = {
   // youtube: el código del video (lo que va después de "watch?v=").
   // archivo: alternativa con MP3 propio, ej. "img/cancion.mp3" (se usa si youtube está vacío).
   musica: {
-    youtube: "vwp1yxtcD7I",
+    youtube: "BGnRat31I00",
     archivo: "",
     titulo: "No crezcas más · Tercer Cielo",
   },
@@ -64,8 +64,8 @@ const CONFIG = {
     tipo: "Formal",
     mujeres: "Vestido largo",
     hombres: "Camisa y pantalón",
-    evitar: "Por favor evita los colores azul y rosado",
-    coloresEvitar: ["#4a78c2", "#f1a7c0"],
+    evitar: "Por favor evita los colores azul cielo, rosado y dorado",
+    coloresEvitar: ["#87ceeb", "#f1a7c0", "#d4af37"],
   },
 
   regalos: {
