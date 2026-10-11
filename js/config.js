@@ -38,7 +38,7 @@ const CONFIG = {
 
   // Link de la carpeta de Google Drive donde los invitados suben sus fotos.
   // Vacío = el botón dice "Disponible el día de la fiesta".
-  subirFotosUrl: "",
+  subirFotosUrl: "https://drive.google.com/drive/folders/1-GA_KsY3AiUkIjEbyshNHj2l9g8x4UA4",
 
   hashtag: "#MisXVMayte",
 
