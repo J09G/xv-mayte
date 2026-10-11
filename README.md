@@ -19,7 +19,7 @@ xv-mayte/
 3. Música del reproductor "Dale play": copia el MP3 en `img/` y ponlo en `musica.archivo`, por ejemplo `"img/cancion.mp3"`.
 4. Los colores y las fuentes están en las variables de `:root`, al inicio de `css/styles.css`.
 
-Para verla en tu computador, abre `index.html` en el navegador o ejecuta `npx serve xv-mayte`.
+Para verla en tu computador, abre `index.html` en el navegador o ejecuta `npx serve .` en esta carpeta.
 
 ## 2. Conectar el RSVP con Google Sheets (unos 5 minutos)
 
@@ -45,7 +45,7 @@ Las respuestas llegan a la pestaña **Confirmaciones**, que se crea sola con la 
 
 ## 3. Publicar gratis en GitHub Pages
 
-1. Sube el contenido de `xv-mayte/` a un repositorio **público**.
+1. El repositorio debe ser **público** (con GitHub gratis).
 2. En el repo, ve a **Settings → Pages → Source: Deploy from a branch**, elige la rama `main` y la carpeta `/ (root)`.
 3. En 1 o 2 minutos queda en `https://TU-USUARIO.github.io/NOMBRE-DEL-REPO/`.
 
