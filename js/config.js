@@ -48,22 +48,24 @@ const CONFIG = {
     mapsUrl: "", // opcional: link exacto de Google Maps del salón
   },
 
-  // icono: users | wine | music | camera | utensils | party | drama | martini
+  // icono: nombre del dibujo en img/iconos/ (sin .png)
   itinerario: [
-    { icono: "users", evento: "Recepción de invitados", hora: "8:30 - 9:00 pm" },
-    { icono: "wine", evento: "Entrada y brindis", hora: "9:00 - 9:30 pm" },
-    { icono: "music", evento: "Cambio de zapatilla y vals", hora: "9:30 - 10:00 pm" },
-    { icono: "camera", evento: "Fotos", hora: "10:00 - 10:30 pm" },
-    { icono: "utensils", evento: "Cena", hora: "10:30 - 11:00 pm" },
-    { icono: "party", evento: "Que empiece la fiesta", hora: "11:00 - 12:00 pm" },
-    { icono: "drama", evento: "Hora loca", hora: "12:00 - 1:00 am" },
-    { icono: "martini", evento: "Happy hour", hora: "1:00 - 2:00 am" },
+    { icono: "recepcion", evento: "Recepción de invitados", hora: "8:30 - 9:00 pm" },
+    { icono: "brindis", evento: "Entrada y brindis", hora: "9:00 - 9:30 pm" },
+    { icono: "vals", evento: "Cambio de zapatilla y vals", hora: "9:30 - 10:00 pm" },
+    { icono: "fotos", evento: "Fotos", hora: "10:00 - 10:30 pm" },
+    { icono: "cena", evento: "Cena", hora: "10:30 - 11:00 pm" },
+    { icono: "fiesta", evento: "Que empiece la fiesta", hora: "11:00 - 12:00 pm" },
+    { icono: "hora-loca", evento: "Hora loca", hora: "12:00 - 1:00 am" },
+    { icono: "happy-hour", evento: "Happy hour", hora: "1:00 - 2:00 am" },
   ],
 
   vestimenta: {
     tipo: "Formal",
     mujeres: "Vestido largo",
     hombres: "Camisa y pantalón",
+    evitar: "Por favor evita los colores azul y rosado",
+    coloresEvitar: ["#4a78c2", "#f1a7c0"],
   },
 
   regalos: {
@@ -73,6 +75,7 @@ const CONFIG = {
   rsvp: {
     // URL de la implementación de Google Apps Script (ver README). CAMBIAR
     scriptUrl: "https://script.google.com/macros/s/AKfycbxLJcDvjT0eMYFtY3NZbAi4AginajI8yNi-jIAWqCDkWRrnPTZj7_Dkno2x0PGDJmJsuA/exec",
+    fechaLimite: "31 de octubre",
     // Número para el botón de respaldo, con indicativo y sin "+" (ej. "573001234567").
     whatsapp: "",
   },

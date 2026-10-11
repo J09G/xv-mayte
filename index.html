@@ -117,7 +117,11 @@
     <!-- ITINERARIO -->
     <section class="section reveal">
       <h2 class="script script--xl">Itinerario</h2>
-      <ol class="timeline" id="lista-itinerario"></ol>
+      <div class="timeline-wrap">
+        <span class="finial finial--top" aria-hidden="true"></span>
+        <ol class="timeline" id="lista-itinerario"></ol>
+        <span class="finial finial--bottom" aria-hidden="true"></span>
+      </div>
     </section>
 
     <!-- VESTIMENTA -->
@@ -126,13 +130,17 @@
       <p class="heading" data-bind="vestimentaTipo"></p>
       <div class="dress">
         <div class="dress__row">
-          <span class="dress__icon" data-icon="dress"></span>
+          <img class="dress__icon" src="img/iconos/mujer.png" alt="">
           <p>Mujeres:<br><span data-bind="mujeres"></span></p>
         </div>
         <div class="dress__row">
-          <span class="dress__icon" data-icon="shirt"></span>
+          <img class="dress__icon" src="img/iconos/hombre.png" alt="">
           <p>Hombres:<br><span data-bind="hombres"></span></p>
         </div>
+      </div>
+      <div class="avoid">
+        <div class="swatches" id="colores-evitar" aria-hidden="true"></div>
+        <p class="avoid__text" id="vestimenta-evitar"></p>
       </div>
     </section>
 
@@ -141,6 +149,7 @@
       <h2 class="script script--lg" data-bind="regalosTitulo"></h2>
       <span class="envelope" data-icon="mail"></span>
 
+      <p class="deadline" id="rsvp-limite"></p>
       <button class="btn btn--gold" id="btn-abrir-rsvp" aria-expanded="false" aria-controls="form-rsvp">Confirmar asistencia</button>
 
       <form class="form" id="form-rsvp" novalidate hidden>

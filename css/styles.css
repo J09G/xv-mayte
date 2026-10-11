@@ -236,11 +236,25 @@ svg { display: block; width: 100%; height: 100%; }
   transform: translateX(-50%);
   background: linear-gradient(to bottom, var(--dorado), #f0e3a8, var(--dorado));
 }
+.timeline-wrap { position: relative; padding: 3.2rem 0; }
+.finial {
+  position: absolute;
+  left: 50%;
+  width: 22px;
+  height: 56px;
+  transform: translateX(-50%);
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 60'><path d='M12 1C3 18 3 30 12 46 21 30 21 18 12 1zM12 46v14' fill='none' stroke='%23d4c38b' stroke-width='1.6'/></svg>") center / contain no-repeat;
+}
+.finial--top { top: 0; }
+.finial--bottom { bottom: 0; transform: translateX(-50%) rotate(180deg); }
+
 .timeline li {
   position: relative;
   width: 50%;
   padding: 1.25rem 1rem 1.5rem 0;
 }
+/* Los elementos se montan a medias, en zigzag, como en el diseño */
+.timeline li + li { margin-top: -4.5rem; }
 .timeline li:nth-child(even) {
   margin-left: 50%;
   padding: 1.25rem 0 1.5rem 1rem;
@@ -248,41 +262,61 @@ svg { display: block; width: 100%; height: 100%; }
 .timeline li::after {
   content: "✦";
   position: absolute;
-  bottom: .9rem;
-  right: -.5rem;
+  bottom: 1.05rem;
+  right: -.55rem;
   color: var(--dorado);
-  font-size: 1rem;
+  font-size: 1.1rem;
   line-height: 1;
 }
 .timeline li:nth-child(even)::after { right: auto; left: -.5rem; }
 .timeline__icon {
   display: block;
-  width: 72px;
-  height: 72px;
-  margin: 0 auto .6rem;
-  color: var(--texto);
+  width: auto;
+  height: 110px;
+  max-width: 100%;
+  margin: 0 auto .5rem;
+  object-fit: contain;
 }
-.timeline__icon svg { stroke-width: 1; }
 .timeline__evento { display: block; font-size: 1.25rem; line-height: 1.2; }
 .timeline__hora { display: block; font-size: 1.25rem; }
 .timeline__line {
   display: block;
-  height: 1px;
-  margin-top: .5rem;
-  background: linear-gradient(to right, transparent, var(--dorado) 15%, var(--dorado) 85%, transparent);
+  height: 12px;
+  margin-top: .3rem;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12'><g fill='none' stroke='%23d4c38b' stroke-width='.8'><path d='M2 6c4-3 8-3 12 0-4 3-8 3-12 0zM186 6c4-3 8-3 12 0-4 3-8 3-12 0z'/><path d='M14 6h172'/></g><g fill='%23d4c38b'><path d='M60 3.5l1.2 2.5 1.3.5-1.3.5L60 9.5l-1.2-2.5-1.3-.5 1.3-.5zM140 3.5l1.2 2.5 1.3.5-1.3.5-1.2 2.5-1.2-2.5-1.3-.5 1.3-.5z'/><circle cx='100' cy='6' r='1'/></g></svg>") center / 100% 100% no-repeat;
 }
 
 /* ===== Vestimenta ===== */
 .dress { display: grid; gap: 1.5rem; margin-top: 1.5rem; }
 .dress__row {
   display: grid;
-  grid-template-columns: 90px 1fr;
+  grid-template-columns: 110px 1fr;
   align-items: center;
   gap: 1rem;
 }
 .dress__row p { margin: 0; font-size: clamp(1.6rem, 8vw, 2.2rem); line-height: 1.3; }
-.dress__icon { width: 90px; height: 120px; color: var(--texto); }
-.dress__icon svg { stroke-width: .8; }
+.dress__icon { width: 110px; height: 190px; object-fit: contain; }
+
+.avoid { margin-top: 2.5rem; }
+.avoid__text { font-size: clamp(1.25rem, 5.5vw, 1.5rem); margin: .8rem 0 0; }
+.swatches { display: flex; justify-content: center; gap: 1rem; }
+.swatch {
+  position: relative;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--blanco), 0 0 0 4px var(--dorado);
+}
+.swatch::after {
+  /* línea cruzada: color que no se debe usar */
+  content: "";
+  position: absolute;
+  left: -4px; right: -4px; top: 50%;
+  height: 2px;
+  background: var(--texto);
+  transform: rotate(-45deg);
+}
+
+.deadline { font-size: clamp(1.15rem, 5vw, 1.35rem); font-style: italic; margin: 0 0 1.25rem; }
 
 /* ===== Sobres + RSVP ===== */
 .envelope { display: block; width: 88px; height: 88px; margin: 0 auto 2rem; }
