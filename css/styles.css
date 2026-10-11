@@ -474,6 +474,9 @@ body.is-locked { overflow: hidden; }
   animation: twinkle 4s ease-in-out infinite;
 }
 
+/* Reproductor de YouTube fuera de pantalla (solo se usa el audio) */
+.yt-oculto { position: fixed; left: -9999px; top: 0; width: 200px; height: 200px; overflow: hidden; pointer-events: none; }
+
 /* ===== Galería ===== */
 .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: .6rem; }
 .gallery__item {

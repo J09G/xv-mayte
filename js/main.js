@@ -220,17 +220,87 @@
   const pintarProgreso = () => progreso.style.setProperty("--p", `${progreso.value}%`);
   pintarProgreso();
 
-  // Si el MP3 todavía no está subido, el reproductor muestra "Pronto".
-  let hayMusica = Boolean(CONFIG.musica.archivo);
-  if (hayMusica) audio.src = CONFIG.musica.archivo;
-  audio.addEventListener("error", () => {
+  // La música puede venir de YouTube (sin descargar nada) o de un MP3.
+  // Las dos fuentes exponen la misma interfaz: play, pause, seek, etc.
+  let hayMusica = Boolean(CONFIG.musica.youtube || CONFIG.musica.archivo);
+  let repetir = true;
+  const motor = CONFIG.musica.youtube ? motorYouTube(CONFIG.musica.youtube) : motorAudio(CONFIG.musica.archivo);
+
+  function sinMusica() {
     hayMusica = false;
     setPlayIcon(false);
-    label.textContent = "Pronto 🎶";
-  });
+  }
+
+  function motorAudio(src) {
+    if (src) audio.src = src;
+    audio.addEventListener("error", sinMusica);
+    audio.addEventListener("play", () => setPlayIcon(true));
+    audio.addEventListener("pause", () => setPlayIcon(false));
+    audio.addEventListener("ended", () => { if (repetir) { audio.currentTime = 0; audio.play(); } });
+    return {
+      play: () => audio.play().catch(() => { if (hayMusica) setPlayIcon(false); }),
+      pause: () => audio.pause(),
+      paused: () => audio.paused,
+      time: () => audio.currentTime,
+      duration: () => audio.duration || 0,
+      seek: (t) => { audio.currentTime = t; },
+    };
+  }
+
+  function motorYouTube(videoId) {
+    let player = null;
+    let listo = false;
+    let pendiente = false;
+    let sonando = false;
+
+    // El reproductor de YouTube queda fuera de la vista: solo se usa el audio.
+    const caja = el("div", "yt-oculto");
+    caja.setAttribute("aria-hidden", "true");
+    caja.appendChild(el("div")).id = "yt-player";
+    document.body.appendChild(caja);
+
+    const anterior = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      if (anterior) anterior();
+      player = new YT.Player("yt-player", {
+        width: 200,
+        height: 200,
+        videoId,
+        playerVars: { controls: 0, disablekb: 1, playsinline: 1, rel: 0 },
+        events: {
+          onReady: () => {
+            listo = true;
+            if (pendiente) player.playVideo();
+          },
+          onStateChange: (e) => {
+            sonando = e.data === YT.PlayerState.PLAYING;
+            setPlayIcon(sonando);
+            if (e.data === YT.PlayerState.ENDED && repetir) {
+              player.seekTo(0, true);
+              player.playVideo();
+            }
+          },
+          onError: sinMusica,
+        },
+      });
+    };
+    const script = document.createElement("script");
+    script.src = "https://www.youtube.com/iframe_api";
+    script.onerror = sinMusica;
+    document.head.appendChild(script);
+
+    return {
+      play: () => { if (listo) player.playVideo(); else pendiente = true; },
+      pause: () => { pendiente = false; if (listo) player.pauseVideo(); },
+      paused: () => !sonando && !pendiente,
+      time: () => (listo ? player.getCurrentTime() : 0),
+      duration: () => (listo ? player.getDuration() : 0),
+      seek: (t) => { if (listo) player.seekTo(t, true); },
+    };
+  }
 
   function reproducir() {
-    if (hayMusica) audio.play().catch(() => { if (hayMusica) setPlayIcon(false); });
+    if (hayMusica) motor.play();
   }
 
   function setPlayIcon(playing) {
@@ -246,23 +316,26 @@
       label.textContent = "Pronto 🎶";
       return;
     }
-    if (audio.paused) reproducir();
-    else audio.pause();
+    if (motor.paused()) reproducir();
+    else motor.pause();
   });
-  audio.addEventListener("play", () => setPlayIcon(true));
-  audio.addEventListener("pause", () => setPlayIcon(false));
-  audio.addEventListener("timeupdate", () => {
-    if (!audio.duration) return;
-    progreso.value = (audio.currentTime / audio.duration) * 100;
+
+  // Barra de progreso
+  setInterval(() => {
+    const d = motor.duration();
+    if (!d || progreso.matches(":active")) return;
+    progreso.value = (motor.time() / d) * 100;
     pintarProgreso();
-  });
+  }, 500);
   progreso.addEventListener("input", () => {
     pintarProgreso();
-    if (audio.duration) audio.currentTime = (progreso.value / 100) * audio.duration;
+    const d = motor.duration();
+    if (d) motor.seek((progreso.value / 100) * d);
   });
-  $("#btn-prev").addEventListener("click", () => { audio.currentTime = 0; });
+  $("#btn-prev").addEventListener("click", () => motor.seek(0));
   $("#btn-next").addEventListener("click", () => {
-    if (audio.duration) audio.currentTime = Math.min(audio.currentTime + 15, audio.duration - 0.5);
+    const d = motor.duration();
+    if (d) motor.seek(Math.min(motor.time() + 15, d - 0.5));
   });
 
   function toggle(btn, onChange) {
@@ -272,7 +345,7 @@
       if (onChange) onChange(on);
     });
   }
-  toggle($("#btn-repeat"), (on) => { audio.loop = on; });
+  toggle($("#btn-repeat"), (on) => { repetir = on; });
   toggle($("#btn-heart"));
   toggle($("#btn-shuffle"));
   $("#btn-shuffle").setAttribute("aria-pressed", "false");

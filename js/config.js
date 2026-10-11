@@ -24,9 +24,12 @@ const CONFIG = {
     final: "img/final.jpg",
   },
 
-  // Canción del reproductor "Dale play". Sube el MP3 a img/ con este nombre.
+  // Canción del reproductor "Dale play".
+  // youtube: el código del video (lo que va después de "watch?v=").
+  // archivo: alternativa con MP3 propio, ej. "img/cancion.mp3" (se usa si youtube está vacío).
   musica: {
-    archivo: "img/cancion.mp3",
+    youtube: "vwp1yxtcD7I",
+    archivo: "",
     titulo: "No crezcas más · Tercer Cielo",
   },
 
