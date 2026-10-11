@@ -59,4 +59,4 @@ invitados: {
 }
 ```
 
-Luego compárteles el link con `?inv=familia-perez`. La portada los saluda por su nombre y el formulario limita las personas a sus cupos.
+Luego compárteles el link con `?inv=familia-perez`. La invitación los saluda por su nombre, les muestra sus cupos y el formulario aparece con su nombre ya escrito.

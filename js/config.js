@@ -61,7 +61,6 @@ const CONFIG = {
   rsvp: {
     // URL de la implementación de Google Apps Script (ver README). CAMBIAR
     scriptUrl: "",
-    maxPersonas: 5,
     // Número para el botón de respaldo, con indicativo y sin "+" (ej. "573001234567").
     whatsapp: "",
   },

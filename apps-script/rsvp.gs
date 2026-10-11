@@ -6,8 +6,7 @@
  */
 
 const HOJA = "Confirmaciones";
-const ENCABEZADOS = ["Fecha", "Nombre", "¿Asiste?", "Personas", "Teléfono", "Mensaje", "Invitación"];
-const MAX_PERSONAS = 10;
+const ENCABEZADOS = ["Fecha", "Nombre", "¿Asiste?", "Teléfono", "Mensaje", "Invitación"];
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -19,13 +18,11 @@ function doPost(e) {
     if (!nombre) return responder({ ok: false, error: "Falta el nombre" });
 
     const asiste = datos.asiste === "No" ? "No" : "Sí";
-    const personas = asiste === "No" ? 0 : Math.min(Math.max(parseInt(datos.personas, 10) || 1, 1), MAX_PERSONAS);
 
     obtenerHoja().appendRow([
       new Date(),
       nombre,
       asiste,
-      personas,
       limpiar(datos.telefono, 20),
       limpiar(datos.mensaje, 300),
       limpiar(datos.invitado, 50),

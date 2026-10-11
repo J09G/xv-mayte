@@ -194,8 +194,6 @@
   const estado = $("#rsvp-estado");
   const btnEnviar = $("#btn-enviar");
   const btnAbrir = $("#btn-abrir-rsvp");
-  const selectPersonas = $("#select-personas");
-  const maxPersonas = invitado ? invitado.cupos : CONFIG.rsvp.maxPersonas;
 
   btnAbrir.addEventListener("click", () => {
     const abrir = form.hidden;
@@ -204,21 +202,7 @@
     if (abrir) form.nombre.focus();
   });
 
-  for (let i = 1; i <= maxPersonas; i++) {
-    const opt = el("option", null, String(i));
-    opt.value = i;
-    selectPersonas.appendChild(opt);
-  }
-  if (invitado) {
-    form.nombre.value = invitado.nombre;
-    selectPersonas.value = invitado.cupos;
-  }
-
-  form.querySelectorAll('input[name="asiste"]').forEach((radio) =>
-    radio.addEventListener("change", () => {
-      $("#campo-personas").hidden = form.asiste.value === "No";
-    })
-  );
+  if (invitado) form.nombre.value = invitado.nombre;
 
   function mostrarEstado(texto, tipo) {
     estado.textContent = texto;
@@ -244,7 +228,6 @@
     const datos = {
       nombre,
       asiste: form.asiste.value,
-      personas: form.asiste.value === "No" ? 0 : Number(selectPersonas.value),
       telefono: form.telefono.value.trim(),
       mensaje: form.mensaje.value.trim(),
       invitado: invitado ? clave : "",
@@ -263,7 +246,6 @@
       if (!json.ok) throw new Error(json.error || "Error desconocido");
 
       form.reset();
-      $("#campo-personas").hidden = false;
       mostrarEstado(
         datos.asiste === "Sí"
           ? `¡Gracias, ${nombre}! Te espero con mucha ilusión 💛`
@@ -286,7 +268,7 @@
       const nombre = form.nombre.value.trim() || "(tu nombre)";
       const texto = form.asiste.value === "No"
         ? `Hola, soy ${nombre}. Lamentablemente no podré asistir a los 15 de ${CONFIG.quinceanera.nombre}.`
-        : `Hola, soy ${nombre}. Confirmo mi asistencia a los 15 de ${CONFIG.quinceanera.nombre} con ${selectPersonas.value} persona(s) 🎉`;
+        : `Hola, soy ${nombre}. Confirmo mi asistencia a los 15 de ${CONFIG.quinceanera.nombre} 🎉`;
       btn.href = `https://wa.me/${CONFIG.rsvp.whatsapp}?text=${encodeURIComponent(texto)}`;
     });
   }
