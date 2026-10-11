@@ -36,9 +36,17 @@ function doPost(e) {
   }
 }
 
-// Permite probar en el navegador que la URL funciona.
+// Permite probar en el navegador que la URL funciona y muestra
+// en qué hoja de cálculo se están guardando las confirmaciones.
 function doGet() {
-  return responder({ ok: true, mensaje: "RSVP activo" });
+  const hoja = obtenerHoja();
+  return responder({
+    ok: true,
+    mensaje: "RSVP activo",
+    archivo: hoja.getParent().getName(),
+    url: hoja.getParent().getUrl(),
+    confirmaciones: Math.max(hoja.getLastRow() - 1, 0),
+  });
 }
 
 function obtenerHoja() {
