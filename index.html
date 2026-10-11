@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mis 15 años · Mayte Gómez Tatis</title>
+  <meta name="description" content="Estás invitado a celebrar los quince años de Mayte Gómez Tatis.">
+
+  <!-- Vista previa al compartir por WhatsApp / redes -->
+  <meta property="og:title" content="Mis 15 años · Mayte Gómez Tatis">
+  <meta property="og:description" content="Viernes 6 de noviembre · 8:30 pm. ¡Confirma tu asistencia!">
+  <meta property="og:type" content="website">
+  <!-- Cuando esté publicado, usa la URL completa: https://TU-SITIO/img/portada.jpg -->
+  <meta property="og:image" content="img/portada.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Gentium+Book+Plus:wght@400;700&family=Playfair+Display:wght@400;500&family=Oswald:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <main class="page">
+
+    <!-- PORTADA + REPRODUCTOR -->
+    <section class="hero">
+      <img class="photo" id="foto-portada" alt="Mayte con su vestido de quince años en el Centro Histórico de Cartagena">
+
+      <div class="player" id="player">
+        <div class="player__top">
+          <span class="player__dash" aria-hidden="true"></span>
+          <button class="player__icon player__heart" id="btn-heart" aria-label="Me gusta" aria-pressed="false" data-icon="heart"></button>
+        </div>
+        <input class="player__progress" id="progreso" type="range" min="0" max="100" value="50" step="0.1" aria-label="Progreso de la canción">
+        <div class="player__controls">
+          <button class="player__icon" id="btn-shuffle" aria-label="Aleatorio" data-icon="shuffle"></button>
+          <button class="player__btn" id="btn-prev" aria-label="Volver al inicio" data-icon="skipBack"></button>
+          <button class="player__btn player__btn--main" id="btn-play" aria-label="Reproducir" data-icon="play"></button>
+          <button class="player__btn" id="btn-next" aria-label="Adelantar" data-icon="skipForward"></button>
+          <button class="player__icon" id="btn-repeat" aria-label="Repetir" aria-pressed="true" data-icon="repeat"></button>
+        </div>
+        <p class="player__label" id="player-label">Dale play</p>
+        <audio id="audio" preload="none" loop></audio>
+      </div>
+    </section>
+
+    <!-- MIS 15 AÑOS -->
+    <section class="section reveal">
+      <h1 class="script script--xl">Mis 15 años</h1>
+      <p class="lead" data-bind="frase"></p>
+      <p class="guest" id="saludo" hidden></p>
+    </section>
+
+    <!-- FECHA -->
+    <section class="section section--tight reveal">
+      <p class="weekday" id="dia-semana"></p>
+      <div class="date">
+        <span id="fecha-dia"></span>
+        <span class="date__sep" aria-hidden="true"></span>
+        <span id="fecha-mes"></span>
+        <span class="date__sep" aria-hidden="true"></span>
+        <span id="fecha-anio"></span>
+      </div>
+      <p class="script script--md">Hora: <span data-bind="hora"></span></p>
+    </section>
+
+    <!-- CUENTA REGRESIVA -->
+    <section class="section reveal">
+      <h2 class="heading">Faltan</h2>
+      <div class="countdown" id="countdown">
+        <span class="countdown__corner countdown__corner--l" aria-hidden="true">❦</span>
+        <span class="countdown__corner countdown__corner--r" aria-hidden="true">❦</span>
+        <div class="countdown__digits">
+          <div><span id="cd-dias">00</span><small>Días</small></div>
+          <b aria-hidden="true">:</b>
+          <div><span id="cd-horas">00</span><small>Horas</small></div>
+          <b aria-hidden="true">:</b>
+          <div><span id="cd-min">00</span><small>Minutos</small></div>
+          <b aria-hidden="true">:</b>
+          <div><span id="cd-seg">00</span><small>Segundos</small></div>
+        </div>
+      </div>
+      <p class="heading" id="countdown-done" hidden>¡Hoy es el gran día!</p>
+    </section>
+
+    <img class="photo reveal" id="foto-detalle" alt="Detalle del vestido de quince años de Mayte">
+
+    <!-- UBICACIÓN -->
+    <section class="section reveal">
+      <h2 class="script script--lg script--dark">Ubicación</h2>
+      <p class="lead">
+        <span data-bind="lugar"></span><br>
+        <span data-bind="direccion"></span>
+      </p>
+      <a class="btn btn--outline" id="btn-mapa" target="_blank" rel="noopener">Ver Mapa</a>
+    </section>
+
+    <!-- ITINERARIO -->
+    <section class="section reveal">
+      <h2 class="script script--xl">Itinerario</h2>
+      <ol class="timeline" id="lista-itinerario"></ol>
+    </section>
+
+    <!-- VESTIMENTA -->
+    <section class="section reveal">
+      <h2 class="script script--lg">Código de Vestimenta</h2>
+      <p class="heading" data-bind="vestimentaTipo"></p>
+      <div class="dress">
+        <div class="dress__row">
+          <span class="dress__icon" data-icon="dress"></span>
+          <p>Mujeres:<br><span data-bind="mujeres"></span></p>
+        </div>
+        <div class="dress__row">
+          <span class="dress__icon" data-icon="shirt"></span>
+          <p>Hombres:<br><span data-bind="hombres"></span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- LLUVIA DE SOBRES + RSVP -->
+    <section class="section reveal" id="rsvp">
+      <h2 class="script script--lg" data-bind="regalosTitulo"></h2>
+      <span class="envelope" data-icon="mail"></span>
+
+      <button class="btn btn--gold" id="btn-abrir-rsvp" aria-expanded="false" aria-controls="form-rsvp">Confirmar asistencia</button>
+
+      <form class="form" id="form-rsvp" novalidate hidden>
+        <label class="field">
+          <span>Nombre completo</span>
+          <input type="text" name="nombre" maxlength="80" required autocomplete="name">
+        </label>
+
+        <fieldset class="field">
+          <legend>¿Asistirás?</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="asiste" value="Sí" checked> <span>¡Sí, ahí estaré!</span></label>
+            <label class="choice"><input type="radio" name="asiste" value="No"> <span>No podré asistir</span></label>
+          </div>
+        </fieldset>
+
+        <label class="field" id="campo-personas">
+          <span>Número de personas (incluyéndote)</span>
+          <select name="personas" id="select-personas"></select>
+        </label>
+
+        <label class="field">
+          <span>Teléfono (opcional)</span>
+          <input type="tel" name="telefono" maxlength="20" autocomplete="tel">
+        </label>
+
+        <label class="field">
+          <span>Mensaje para Mayte (opcional)</span>
+          <textarea name="mensaje" rows="3" maxlength="300"></textarea>
+        </label>
+
+        <button class="btn btn--gold" type="submit" id="btn-enviar">Enviar confirmación</button>
+        <p class="form__status" id="rsvp-estado" role="status" aria-live="polite"></p>
+        <a class="btn btn--outline btn--small" id="btn-whatsapp" target="_blank" rel="noopener" hidden>Confirmar por WhatsApp</a>
+      </form>
+
+      <p class="lead lead--big" id="despedida"></p>
+      <p class="script script--lg signature">
+        <span data-bind="nombre"></span><br><span data-bind="apellidos"></span>
+      </p>
+    </section>
+
+    <img class="photo photo--inset reveal" id="foto-final" alt="Mayte de espaldas con su vestido en una calle de Cartagena">
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
