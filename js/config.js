@@ -72,7 +72,7 @@ const CONFIG = {
 
   rsvp: {
     // URL de la implementación de Google Apps Script (ver README). CAMBIAR
-    scriptUrl: "",
+    scriptUrl: "https://script.google.com/macros/s/AKfycbxLJcDvjT0eMYFtY3NZbAi4AginajI8yNi-jIAWqCDkWRrnPTZj7_Dkno2x0PGDJmJsuA/exec",
     // Número para el botón de respaldo, con indicativo y sin "+" (ej. "573001234567").
     whatsapp: "",
   },
