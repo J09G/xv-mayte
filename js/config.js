@@ -30,7 +30,7 @@ const CONFIG = {
   musica: {
     youtube: "BGnRat31I00",
     archivo: "",
-    titulo: "No crezcas más · Tercer Cielo",
+    titulo: "", // vacío = siempre dice "Dale play"
   },
 
   // Fotos de la galería (ej. ["img/galeria/1.jpg", "img/galeria/2.jpg"]). Vacío = se oculta.
