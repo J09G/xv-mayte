@@ -28,7 +28,7 @@ const CONFIG = {
   // youtube: el código del video (lo que va después de "watch?v=").
   // archivo: alternativa con MP3 propio, ej. "img/cancion.mp3" (se usa si youtube está vacío).
   musica: {
-    youtube: "BGnRat31I00",
+    youtube: "ty_mlHEwTsc",
     archivo: "",
     titulo: "", // vacío = siempre dice "Dale play"
   },
